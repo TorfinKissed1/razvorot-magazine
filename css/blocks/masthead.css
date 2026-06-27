@@ -1,0 +1,110 @@
+/* ============================================================
+   masthead.css — home hero (kinetic broadsheet masthead).
+   Wide, image-led editorial scale. Title reveals via clip-wipe
+   per line ([data-reveal-head]); eyebrow + tagline + hairline rule
+   rise via [data-reveal]. References theme tokens ONLY — AA in
+   BOTH light & dark. Per-rubric accent (lime) on eyebrow tick &
+   rule ONLY, never body text. 0–2px radius, 1px hairlines, clamp().
+   Blocks toggle .is-revealed only (contract lives in base.css).
+   ============================================================ */
+
+.masthead {
+  padding-block: clamp(2.75rem, 6vw, 5.5rem) clamp(2rem, 4vw, 3.25rem);
+  border-bottom: var(--line-w) solid var(--line-soft);
+}
+
+/* Broadsheet measure: title gets its own column, tagline hangs in a
+   second column on wide screens so the spread reads as a real masthead. */
+.masthead__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* ---- Eyebrow (kicker) — UI label, lime tick, hairline-quiet ---- */
+.masthead__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.6rem, 1.2vw, 0.9rem);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: clamp(0.72rem, 0.68rem + 0.18vw, 0.82rem);
+  line-height: 1.3;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.masthead__eyebrow::before {
+  content: "";
+  flex: 0 0 auto;
+  width: clamp(28px, 6vw, 64px);
+  height: 2px;
+  background: var(--accent-city);   /* per-rubric accent on rule/tick only */
+}
+
+/* ---- Kinetic display title — wide broadsheet, per-line clip-wipe ---- */
+.masthead__title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 1.6rem + 7vw, 6.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  max-width: 18ch;
+}
+/* each line is its own [data-reveal-head]; clip-wipe defined in base.css.
+   block + min-width:0 keeps the wipe clean and avoids overflow on narrow. */
+.masthead__line {
+  display: block;
+  min-width: 0;
+}
+
+/* ---- Tagline — editorial serif italic, secondary ink ---- */
+.masthead__tagline {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.1rem, 0.98rem + 0.95vw, 1.7rem);
+  line-height: 1.4;
+  color: var(--muted);
+  max-width: 42ch;
+}
+
+/* ---- Hairline rule — full-measure column rule, minimal ---- */
+.masthead__rule {
+  margin-top: clamp(0.75rem, 2vw, 1.5rem);
+  border-top-color: var(--line);
+}
+
+/* ============================================================
+   WIDE: lay the masthead as a two-column spread (title leads,
+   tagline + rule hang in a tighter right column). Title may break
+   the column edge slightly for a kinetic broken-grid feel.
+   ============================================================ */
+@media (min-width: 900px) {
+  .masthead__inner {
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+    row-gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: end;
+  }
+  .masthead__eyebrow { grid-column: 1 / -1; }
+  .masthead__title   { grid-column: 1; grid-row: 2; }
+  .masthead__tagline {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    padding-bottom: 0.35em;
+  }
+  .masthead__rule { grid-column: 1 / -1; grid-row: 3; }
+}
+
+/* ============================================================
+   MOBILE / 390px reflow — single column, no horizontal overflow.
+   Reuse the SAME selectors; just relax the spread back to stacked.
+   ============================================================ */
+@media (max-width: 540px) {
+  .masthead { padding-block: clamp(2.25rem, 9vw, 3rem) 2rem; }
+  .masthead__title { max-width: 100%; }
+  .masthead__tagline { max-width: 100%; }
+}

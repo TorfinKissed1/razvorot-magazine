@@ -1,0 +1,223 @@
+/* ============================================================
+   header.css — shared sticky masthead bar for «Разворот».
+   Wordmark · rubric nav · lang-toggle (РУ/EN) · theme-toggle
+   (sun/moon) · burger + mobile panel.
+
+   Editorial broadsheet: 1px hairline rules, 0–2px radius, NO heavy
+   shadows, fluid clamp(). References ONLY theme tokens (light AND
+   dark). Per-rubric --accent appears ONLY on nav underlines / kickers
+   / hairlines — never body text. AA in BOTH themes. Clean 390px
+   reflow: mobile overrides reuse the SAME selectors. Identical across
+   index.html / article.html / rubric.html.
+   ============================================================ */
+
+/* ---- Bar ---------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* translucent newsprint; falls back to solid where no backdrop-filter */
+  background: var(--bg);
+  border-bottom: var(--line-w) solid var(--line);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .site-header {
+    background: color-mix(in oklch, var(--bg) 86%, transparent);
+    -webkit-backdrop-filter: saturate(1.1) blur(10px);
+    backdrop-filter: saturate(1.1) blur(10px);
+  }
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  min-height: 64px;
+  padding-block: 0.7rem;
+}
+
+/* ---- Wordmark ----------------------------------------------- */
+.wordmark {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ink);
+  transition: opacity 0.2s var(--ease);
+}
+.site-header .wordmark:hover { opacity: 0.7; }
+
+/* ---- Primary nav (desktop) ---------------------------------- */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.6rem);
+  margin-inline-start: auto;        /* push nav + tools to the right */
+}
+.site-nav__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.85rem, 2vw, 1.6rem);
+}
+.site-nav__link {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  padding: 0.4rem 0;
+  position: relative;
+  color: var(--ink);              /* AA body ink — accent only on the rule */
+}
+/* hairline underline that resolves into the rubric accent */
+.site-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s var(--ease);
+}
+.site-nav__link:hover::after,
+.site-nav__link:focus-visible::after,
+.site-nav__link[aria-current="page"]::after { transform: scaleX(1); }
+.site-nav__link[aria-current="page"] { font-weight: 600; }
+
+/* ---- Toolbar (toggles + burger) ----------------------------- */
+.site-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  min-width: 38px;
+  padding-inline: 0.55rem;
+  border: var(--line-w) solid var(--line);
+  border-radius: 2px;             /* editorial: minimal radius */
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.82rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  transition:
+    background 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+.toggle-btn:hover { border-color: var(--ink); }
+
+/* lang toggle — РУ / EN; the inactive language dims (JS sets data-lang) */
+.lang-toggle__ru,
+.lang-toggle__en { display: inline; transition: opacity 0.2s var(--ease); }
+[data-lang-toggle][data-lang="ru"] .lang-toggle__en,
+[data-lang-toggle]:not([data-lang]) .lang-toggle__en { opacity: 0.4; }
+[data-lang-toggle][data-lang="en"] .lang-toggle__ru { opacity: 0.4; }
+.lang-toggle__sep { opacity: 0.35; margin-inline: 0.22rem; }
+
+/* theme toggle — sun in dark, moon in light */
+.theme-toggle__icon { width: 18px; height: 18px; }
+.theme-toggle__sun  { display: none; }
+.theme-toggle__moon { display: block; }
+html[data-theme="dark"] .theme-toggle__sun  { display: block; }
+html[data-theme="dark"] .theme-toggle__moon { display: none; }
+
+/* ---- Burger (hidden on desktop) ----------------------------- */
+.burger {
+  display: none;
+  width: 40px;
+  height: 38px;
+  border: var(--line-w) solid var(--line);
+  border-radius: 2px;
+  background: var(--surface);
+  position: relative;
+  transition: border-color 0.2s var(--ease);
+}
+.burger:hover { border-color: var(--ink); }
+.burger__bars,
+.burger__bars::before,
+.burger__bars::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+  transform: translate(-50%, -50%);
+  transition: transform 0.25s var(--ease), opacity 0.2s var(--ease);
+}
+.burger__bars::before { transform: translate(-50%, calc(-50% - 6px)); }
+.burger__bars::after  { transform: translate(-50%, calc(-50% + 6px)); }
+.burger[aria-expanded="true"] .burger__bars { background: transparent; }
+.burger[aria-expanded="true"] .burger__bars::before { transform: translate(-50%, -50%) rotate(45deg); }
+.burger[aria-expanded="true"] .burger__bars::after  { transform: translate(-50%, -50%) rotate(-45deg); }
+
+/* ---- Mobile panel (rendered only at the breakpoint) --------- */
+.nav-panel { display: none; }
+
+/* ============================================================
+   MOBILE — broken to a single column, burger-driven panel.
+   No horizontal overflow; reuses the SAME selectors as desktop.
+   ============================================================ */
+@media (max-width: 860px) {
+  /* hide the inline list, surface the burger */
+  .site-nav__list { display: none; }
+  .burger { display: block; }
+
+  .nav-panel {
+    display: block;
+    position: fixed;
+    inset: 64px 0 auto 0;           /* tucks under the 64px bar */
+    z-index: 99;
+    background: var(--bg);
+    border-bottom: var(--line-w) solid var(--line);
+    padding: 1.25rem var(--pad-x) 2rem;
+    transform: translateY(-12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.28s var(--ease), opacity 0.28s var(--ease);
+  }
+  .nav-panel[data-open="true"] {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-panel__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .nav-panel__link {
+    display: block;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: clamp(1.4rem, 1.2rem + 2vw, 1.75rem);
+    line-height: 1.1;
+    padding: 0.6rem 0;
+    border-bottom: var(--line-w) solid var(--line-soft);
+    color: var(--ink);
+  }
+  /* rubric label resolves into its accent — kicker-style, not body text */
+  .nav-panel__link [data-rubric] { color: var(--accent); }
+}
+
+/* very narrow (≤390px): keep the toolbar from crowding the wordmark */
+@media (max-width: 390px) {
+  .site-header__inner { gap: 0.75rem; }
+  .site-tools { gap: 0.4rem; }
+  .toggle-btn { padding-inline: 0.45rem; }
+}

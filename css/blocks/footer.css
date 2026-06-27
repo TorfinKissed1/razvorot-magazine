@@ -1,0 +1,146 @@
+/* footer.css — shared editorial footer: brand + tagline (reveal),
+   3-col link grid (rubric-scoped accents), copyright + toggles, hairline rules.
+   AA contrast light & dark, reveals via .is-revealed, clean mobile reflow. */
+
+.site-footer {
+  border-top: var(--line-w) solid var(--line);
+  padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: var(--section-gap);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* ---- Top: brand, tagline (reveal), 3-col links ---- */
+.site-footer__top {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* Brand column — wordmark + tagline, both reveal */
+.site-footer__brand {
+  display: grid;
+  gap: 0.8rem;
+}
+.site-footer__brand .wordmark {
+  font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  display: inline-block;
+  width: max-content;
+}
+.site-footer__about {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+  max-width: 34ch;
+  line-height: 1.58;
+}
+
+/* Link columns — rubrics, magazine, follow */
+.footer-col {
+  display: grid;
+  gap: 1rem;
+}
+.footer-col__title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.footer-col__list {
+  display: grid;
+  gap: 0.6rem;
+}
+.footer-col__link {
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--ink);
+  position: relative;
+  width: max-content;
+  transition: color 0.22s var(--ease);
+}
+
+/* Rubric links: accent dot indicator */
+.footer-col__link[data-rubric] {
+  color: var(--ink);
+}
+.footer-col__link[data-rubric]::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.55rem;
+  background: var(--accent);
+  border-radius: 0;
+  vertical-align: 0.15em;
+}
+.footer-col__link[data-rubric="city"]    { --accent: var(--accent-city); }
+.footer-col__link[data-rubric="culture"] { --accent: var(--accent-culture); }
+.footer-col__link[data-rubric="people"]  { --accent: var(--accent-people); }
+.footer-col__link[data-rubric="food"]    { --accent: var(--accent-food); }
+
+.footer-col__link:hover {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---- Bottom: copyright + toggles (thin hairline above) ---- */
+.site-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1rem, 3vw, 2rem);
+  flex-wrap: wrap;
+  padding-top: 1.25rem;
+  border-top: var(--line-w) solid var(--line-soft);
+}
+.site-footer__copy {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ---- Reveals ----
+   Footer columns rise on scroll-enter via the shared [data-reveal] contract
+   (base.css + reveal.js). Each .site-footer__top column carries data-reveal in
+   the HTML; stagger is set inline per column with --d. No block-local keyframes
+   or transitions — base.css owns the single .is-revealed motion. */
+
+/* ---- Mobile: 2-col, then 1-col ---- */
+@media (max-width: 860px) {
+  .site-footer__top {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* brand column spans full width */
+  .site-footer__top > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-footer__top {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .site-footer__copy {
+    order: 2;
+    width: 100%;
+  }
+}

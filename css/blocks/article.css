@@ -1,0 +1,247 @@
+/* ============================================================
+   article.css — long-form reading page = a magazine spread.
+   Full-bleed cover, kinetic clip-wipe title, rubric kicker, meta,
+   ~68ch Spectral reading column, floating pull-quote OUTSIDE the
+   column, inline image, related-articles strip (reuses .card).
+   Tokens only. Per-rubric accent via [data-rubric] scope.
+   ============================================================ */
+
+.article { --accent: var(--ink); }
+.article[data-rubric="city"]    { --accent: var(--accent-city); }
+.article[data-rubric="culture"] { --accent: var(--accent-culture); }
+.article[data-rubric="people"]  { --accent: var(--accent-people); }
+.article[data-rubric="food"]    { --accent: var(--accent-food); }
+
+/* ---- Full-bleed cover ---- */
+.article-cover {
+  position: relative;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  aspect-ratio: 16 / 9;
+  max-height: 78vh;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+.article-cover__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.article-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    oklch(0 0 0 / 0.05) 0%,
+    oklch(0 0 0 / 0) 35%,
+    oklch(0 0 0 / 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .article-cover { aspect-ratio: 4 / 5; max-height: 70vh; }
+}
+
+/* ---- Headline block (overlaps bottom of cover) ---- */
+.article-head {
+  position: relative;
+  z-index: 3;
+  margin-top: clamp(-7rem, -10vw, -3.5rem);
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+.article-head__inner {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+
+.article-head__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: max-content;
+  padding: 0.35rem 0.7rem;
+  background: var(--bg);
+  border: var(--line-w) solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.article-head__kicker::before {
+  content: "";
+  width: 6px; height: 6px;
+  background: var(--accent);
+}
+
+.article-head__title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(2.3rem, 1.6rem + 4.4vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 16ch;
+}
+.article-head__title .article-head__line { display: block; }
+
+.article-head__dek {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(1.15rem, 1rem + 1vw, 1.7rem);
+  line-height: 1.35;
+  color: var(--muted);
+  max-width: 32ch;
+}
+
+/* ---- Author / date meta row ---- */
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.9rem;
+  padding-top: 0.9rem;
+  border-top: var(--line-w) solid var(--line);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.article-meta__author { color: var(--ink); font-weight: 600; }
+.article-meta__dot { width: 3px; height: 3px; background: var(--muted); border-radius: 50%; }
+
+/* ---- Long-form reading column (~68ch Spectral) ---- */
+.article-body {
+  position: relative;
+  max-width: 68ch;
+  margin-inline: auto;
+  margin-bottom: var(--section-gap);
+}
+.article-body__p {
+  font-family: var(--font-body);
+  font-size: clamp(1.08rem, 1rem + 0.4vw, 1.25rem);
+  line-height: 1.72;
+  color: var(--ink);
+}
+.article-body__p + .article-body__p { margin-top: 1.4em; }
+
+/* drop-cap on the first paragraph — editorial flourish */
+.article-body__p--lead::first-letter {
+  float: left;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 3.6em;
+  line-height: 0.74;
+  padding: 0.06em 0.12em 0 0;
+  color: var(--accent);
+}
+
+/* ---- Floating pull-quote — OUTSIDE the reading column ----
+   Breaks the 68ch column out to a wider editorial measure. The breakout
+   is capped at the column width itself (clamped to 0), so it can never
+   push past the container / viewport — no 390px overflow. */
+.article-pullquote {
+  --break: clamp(0px, 6vw, 6rem);
+  margin-block: clamp(2.5rem, 6vw, 4rem);
+  width: calc(100% + var(--break) * 2);
+  margin-inline: calc(var(--break) * -1);
+  padding-left: clamp(1.25rem, 3vw, 2.5rem);
+  border-left: 3px solid var(--accent);
+}
+.article-pullquote__text {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 1.1rem + 2.4vw, 2.9rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.article-pullquote__cite {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-style: normal;
+}
+
+/* ---- Inline figure inside the flow ----
+   Same capped breakout as the pull-quote; stays inside the container. */
+.article-figure {
+  --break: clamp(0px, 7vw, 8rem);
+  margin-block: clamp(2.25rem, 5vw, 3.5rem);
+  width: calc(100% + var(--break) * 2);
+  margin-inline: calc(var(--break) * -1);
+}
+.article-figure__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: var(--surface-2);
+}
+.article-figure__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.article-figure__cap {
+  margin-top: 0.75rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--accent);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+/* ---- Related-articles strip (reuses .card grid) ---- */
+.article-related {
+  padding-top: clamp(2rem, 5vw, 3rem);
+  border-top: var(--line-w) solid var(--line);
+}
+.article-related__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+.article-related__title {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 1rem + 1.2vw, 1.9rem);
+  letter-spacing: -0.01em;
+}
+.article-related__back {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.article-related__back:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+.article-related__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(1.75rem, 3vw, 2.75rem) clamp(1.5rem, 2.5vw, 2.25rem);
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 860px) {
+  .article-related__grid .card { grid-column: span 6; }
+}
+@media (max-width: 540px) {
+  .article-head { margin-top: clamp(-4.5rem, -14vw, -2.5rem); }
+  .article-related__grid .card { grid-column: span 12; }
+}

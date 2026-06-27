@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-ru="Последний смотритель — Разворот" data-en="The Last Caretaker — Razvorot">Последний смотритель — Разворот</title>
+  <meta name="description" data-ru="Николай Фёдорович Кравцов охраняет заброшенный речной вокзал уже двадцать два года." data-en="Nikolai Fyodorovich Kravtsov has guarded an abandoned river terminal for twenty-two years." content="Николай Фёдорович Кравцов охраняет заброшенный речной вокзал уже двадцать два года.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f2efe6'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' font-weight='700' text-anchor='middle' fill='%231a1a1a'%3E%D0%A0%3C/text%3E%3C/svg%3E">
+
+  <!-- Theme-before-paint (no FOUC) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('razvorot-theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('razvorot-lang');
+        if (l === 'en') document.documentElement.setAttribute('lang', 'en');
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Fonts: Unbounded (display) + Spectral (body) + Onest (ui), cyrillic+latin -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&family=Onest:wght@400;500;600&display=swap&subset=cyrillic,latin" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/blocks/header.css">
+  <link rel="stylesheet" href="css/blocks/masthead.css">
+  <link rel="stylesheet" href="css/blocks/lenta.css">
+  <link rel="stylesheet" href="css/blocks/newsletter.css">
+  <link rel="stylesheet" href="css/blocks/footer.css">
+  <link rel="stylesheet" href="css/blocks/article.css">
+</head>
+<body>
+  <!-- Scroll progress -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" data-scroll-progress></div>
+  </div>
+
+  <a class="skip-link" href="#main" data-ru="К содержанию" data-en="Skip to content">К содержанию</a>
+
+  <!-- ============ SHARED HEADER ============ -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="wordmark" href="index.html" data-ru="Разворот" data-en="Razvorot">Разворот</a>
+
+      <nav class="site-nav" aria-label="Рубрики">
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="rubric.html" data-rubric="city"    data-ru="Город" data-en="City">Город</a></li>
+          <li><a class="site-nav__link" href="rubric.html" data-rubric="culture" data-ru="Культура" data-en="Culture">Культура</a></li>
+          <li><a class="site-nav__link" href="rubric.html" data-rubric="people"  data-ru="Люди" data-en="People">Люди</a></li>
+          <li><a class="site-nav__link" href="rubric.html" data-rubric="food"    data-ru="Еда" data-en="Food">Еда</a></li>
+        </ul>
+
+        <div class="site-tools">
+          <button class="toggle-btn" data-lang-toggle type="button" aria-pressed="false" aria-label="Сменить язык / Switch language">
+            <span class="lang-toggle__ru">РУ</span><span class="lang-toggle__sep">/</span><span class="lang-toggle__en">EN</span>
+          </button>
+          <button class="toggle-btn" data-theme-toggle type="button" aria-pressed="false"
+                  data-label-dark="Тёмная тема" data-label-light="Светлая тема" aria-label="Тёмная тема">
+            <svg class="theme-toggle__icon theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+            <svg class="theme-toggle__icon theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+          </button>
+          <button class="burger" data-nav-toggle type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Меню">
+            <span class="burger__bars"></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Mobile panel -->
+    <div class="nav-panel" id="nav-panel" data-nav-panel data-open="false">
+      <ul class="nav-panel__list">
+        <li><a class="nav-panel__link" href="rubric.html"><span data-rubric="city"    data-ru="Город" data-en="City">Город</span></a></li>
+        <li><a class="nav-panel__link" href="rubric.html"><span data-rubric="culture" data-ru="Культура" data-en="Culture">Культура</span></a></li>
+        <li><a class="nav-panel__link" href="rubric.html"><span data-rubric="people"  data-ru="Люди" data-en="People">Люди</span></a></li>
+        <li><a class="nav-panel__link" href="rubric.html"><span data-rubric="food"    data-ru="Еда" data-en="Food">Еда</span></a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ ARTICLE ============ -->
+    <article class="article" data-rubric="people">
+
+      <!-- Full-bleed cover -->
+      <div class="article-cover">
+        <img class="article-cover__img" src="img/article-cover.jpg" width="1920" height="1080" loading="eager" decoding="async"
+             data-alt-ru="Заброшенный речной вокзал у воды в холодном свете" data-alt-en="An abandoned river terminal by the water in cold light"
+             alt="Заброшенный речной вокзал у воды в холодном свете">
+      </div>
+
+      <!-- Headline (overlaps cover bottom) -->
+      <div class="container article-head">
+        <div class="article-head__inner">
+          <span class="article-head__kicker" data-reveal data-ru="Люди" data-en="People">Люди</span>
+          <h1 class="article-head__title">
+            <span class="article-head__line" data-reveal-head data-ru="Последний" data-en="The Last">Последний</span>
+            <span class="article-head__line" data-reveal-head data-ru="смотритель" data-en="Caretaker">смотритель</span>
+          </h1>
+          <p class="article-head__dek" data-reveal data-ru="Двадцать два года он сторожит здание, которое город забыл открыть. Репортаж о верности месту, которого больше нет в расписании." data-en="For twenty-two years he has guarded a building the city forgot to reopen. A report on loyalty to a place that no longer appears in any timetable.">Двадцать два года он сторожит здание, которое город забыл открыть. Репортаж о верности месту, которого больше нет в расписании.</p>
+        </div>
+
+        <p class="article-meta" data-reveal>
+          <span class="article-meta__author" data-ru="Наташа Орлова" data-en="Natasha Orlova">Наташа Орлова</span>
+          <span class="article-meta__dot" aria-hidden="true"></span>
+          <time datetime="2026-06-27" data-ru="27 июня 2026" data-en="June 27, 2026">27 июня 2026</time>
+          <span class="article-meta__dot" aria-hidden="true"></span>
+          <span data-ru="Чтение 9 минут" data-en="9 min read">Чтение 9 минут</span>
+        </p>
+      </div>
+
+      <!-- Reading column ~68ch -->
+      <div class="container">
+        <div class="article-body">
+
+          <p class="article-body__p article-body__p--lead" data-reveal data-ru="Речной вокзал закрыли в 2004 году, тихо, между двумя зимами. Последний теплоход ушёл в октябре, расписание сняли в ноябре, а к весне о здании уже говорили в прошедшем времени. Николай Фёдорович Кравцов остался. Тогда ему было пятьдесят три, и он считал, что это временно — пока не решат, что делать с залом ожидания, с кассами, с гранитной набережной, по которой больше никто не спешил на посадку." data-en="The river terminal was closed in 2004, quietly, between two winters. The last steamer left in October, the timetable came down in November, and by spring people already spoke of the building in the past tense. Nikolai Fyodorovich Kravtsov stayed. He was fifty-three then, and he assumed it was temporary — until someone decided what to do with the waiting hall, the ticket windows, the granite embankment where no one hurried to board anymore.">Речной вокзал закрыли в 2004 году, тихо, между двумя зимами. Последний теплоход ушёл в октябре, расписание сняли в ноябре, а к весне о здании уже говорили в прошедшем времени. Николай Фёдорович Кравцов остался. Тогда ему было пятьдесят три, и он считал, что это временно — пока не решат, что делать с залом ожидания, с кассами, с гранитной набережной, по которой больше никто не спешил на посадку.</p>
+
+          <p class="article-body__p" data-reveal data-ru="Решения не было ни через год, ни через десять. Балансодержатель менялся четыре раза, проекты реконструкции рисовали и складывали в архив, инвесторы приезжали, фотографировали лепнину и исчезали. А смотритель приходил каждое утро к семи, обходил здание по часовой стрелке, проверял окна, подметал ступени, записывал в тетрадь погоду и уровень воды. «Если за домом следить, он живой, — говорит он. — Стоит перестать — и он сразу понимает, что его бросили»." data-en="A decision came neither in a year nor in ten. The custodian on paper changed four times, reconstruction plans were drawn and filed away, investors arrived, photographed the moldings and vanished. And the caretaker came every morning at seven, walked the building clockwise, checked the windows, swept the steps, noted the weather and the water level in a notebook. 'If you tend a house, it stays alive,' he says. 'Stop, and it understands at once that it has been abandoned.'">Решения не было ни через год, ни через десять. Балансодержатель менялся четыре раза, проекты реконструкции рисовали и складывали в архив, инвесторы приезжали, фотографировали лепнину и исчезали. А смотритель приходил каждое утро к семи, обходил здание по часовой стрелке, проверял окна, подметал ступени, записывал в тетрадь погоду и уровень воды. «Если за домом следить, он живой, — говорит он. — Стоит перестать — и он сразу понимает, что его бросили».</p>
+
+          <!-- Floating pull-quote — OUTSIDE the reading column -->
+          <figure class="article-pullquote" data-reveal>
+            <p class="article-pullquote__text" data-ru="«Я не жду, что его откроют. Я просто слежу, чтобы было что открывать»." data-en="'I am not waiting for it to reopen. I just make sure there is something left to reopen.'">«Я не жду, что его откроют. Я просто слежу, чтобы было что открывать».</p>
+            <figcaption class="article-pullquote__cite" data-ru="Николай Кравцов, смотритель" data-en="Nikolai Kravtsov, caretaker">Николай Кравцов, смотритель</figcaption>
+          </figure>
+
+          <p class="article-body__p" data-reveal data-ru="Внутри время остановилось аккуратно, без драмы. На табло — рейсы, которых нет уже двадцать лет: Кижи, Валаам, Свирьстрой. В буфете — стулья, перевёрнутые на столы, как в конце смены. Кравцов вытирает с них пыль раз в неделю, хотя смены не будет. Он объясняет это просто: пыль — это согласие с тем, что всё кончилось, а он не согласен." data-en="Inside, time has stopped neatly, without drama. On the departure board — routes that have not existed for twenty years: Kizhi, Valaam, Svirstroy. In the buffet — chairs turned up onto the tables, as at the end of a shift. Kravtsov wipes the dust off them once a week, though no shift will come. He explains it plainly: dust is consent that it is all over, and he does not consent.">Внутри время остановилось аккуратно, без драмы. На табло — рейсы, которых нет уже двадцать лет: Кижи, Валаам, Свирьстрой. В буфете — стулья, перевёрнутые на столы, как в конце смены. Кравцов вытирает с них пыль раз в неделю, хотя смены не будет. Он объясняет это просто: пыль — это согласие с тем, что всё кончилось, а он не согласен.</p>
+
+          <!-- Inline image -->
+          <figure class="article-figure" data-reveal>
+            <div class="article-figure__img-wrap">
+              <img class="article-figure__img" src="img/people-2.jpg" width="1600" height="1000" loading="lazy" decoding="async"
+                   data-alt-ru="Смотритель у окна пустого зала ожидания" data-alt-en="The caretaker by a window in the empty waiting hall"
+                   alt="Смотритель у окна пустого зала ожидания">
+            </div>
+            <figcaption class="article-figure__cap" data-ru="Зал ожидания. Табло до сих пор показывает рейсы, отменённые в 2004 году." data-en="The waiting hall. The board still shows routes cancelled in 2004.">Зал ожидания. Табло до сих пор показывает рейсы, отменённые в 2004 году.</figcaption>
+          </figure>
+
+          <p class="article-body__p" data-reveal data-ru="Зарплату ему перестали платить регулярно ещё в две тысячи десятых — переводят то с задержкой в полгода, то символическими суммами, которых не хватает на дорогу. Он не уходит не из упрямства и не из расчёта. Кравцов вырос в доме напротив, провожал отсюда отца на войну, встречал брата из армии, целовался на этой набережной с будущей женой. Здание для него не объект охраны, а свидетель, и оставить свидетеля одного он не может." data-en="They stopped paying him regularly back in the early 2010s — the money comes either six months late or in token sums that don't cover the commute. He doesn't leave out of stubbornness or calculation. Kravtsov grew up in the house across the street; from here he saw his father off to war, met his brother home from the army, kissed his future wife on this embankment. The building is not an object to be guarded but a witness, and he cannot leave a witness alone.">Зарплату ему перестали платить регулярно ещё в две тысячи десятых — переводят то с задержкой в полгода, то символическими суммами, которых не хватает на дорогу. Он не уходит не из упрямства и не из расчёта. Кравцов вырос в доме напротив, провожал отсюда отца на войну, встречал брата из армии, целовался на этой набережной с будущей женой. Здание для него не объект охраны, а свидетель, и оставить свидетеля одного он не может.</p>
+
+          <p class="article-body__p" data-reveal data-ru="Когда мы прощаемся, он запирает главные двери на ключ, который носит на шее, и идёт вдоль воды к остановке. Город за его спиной строит новый кластер набережных — стекло, кофейни, велодорожки. До вокзала очередь пока не дошла. «Может, и хорошо, — говорит Кравцов, не оборачиваясь. — Пусть забудут ещё немного. Я подожду. Я умею ждать»." data-en="When we say goodbye he locks the main doors with the key he wears around his neck and walks along the water toward the stop. Behind him the city is building a new embankment cluster — glass, coffee shops, bike lanes. The queue has not yet reached the terminal. 'Maybe that's for the best,' Kravtsov says without turning around. 'Let them forget a little longer. I'll wait. I know how to wait.'">Когда мы прощаемся, он запирает главные двери на ключ, который носит на шее, и идёт вдоль воды к остановке. Город за его спиной строит новый кластер набережных — стекло, кофейни, велодорожки. До вокзала очередь пока не дошла. «Может, и хорошо, — говорит Кравцов, не оборачиваясь. — Пусть забудут ещё немного. Я подожду. Я умею ждать».</p>
+
+        </div>
+      </div>
+
+      <!-- Related articles strip (reuses .card) -->
+      <section class="container article-related">
+        <div class="article-related__head" data-reveal>
+          <h2 class="article-related__title" data-ru="Читать дальше" data-en="Read next">Читать дальше</h2>
+          <a class="article-related__back" href="index.html" data-ru="← Все материалы" data-en="← All stories">← Все материалы</a>
+        </div>
+
+        <div class="article-related__grid">
+
+          <!-- PEOPLE 1 -->
+          <a class="card" href="article.html" data-rubric="people" data-reveal>
+            <div class="card__media">
+              <div class="card__img-wrap">
+                <img class="card__img" src="img/people-1.jpg" width="1600" height="2000" loading="lazy" decoding="async"
+                     data-alt-ru="Портрет в традиционном наряде" data-alt-en="A portrait in traditional attire"
+                     alt="Портрет в традиционном наряде">
+              </div>
+              <span class="card__kicker" data-ru="Люди" data-en="People">Люди</span>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title" data-ru="«Я шью паруса»: разговор с мастером, которого не ищут в интернете" data-en="'I Sew Sails': A Conversation With a Craftsman You Won't Find Online">«Я шью паруса»: разговор с мастером, которого не ищут в интернете</h3>
+              <p class="card__dek" data-ru="Виктор Лузин — единственный парусный мастер в городе. Он не пользуется телефоном и принимает заказы через записку под дверью." data-en="Viktor Luzin is the city's only sailmaker. He doesn't use a phone and accepts orders via a note slipped under his door.">Виктор Лузин — единственный парусный мастер в городе. Он не пользуется телефоном и принимает заказы через записку под дверью.</p>
+              <p class="card__meta">
+                <span data-ru="Наташа Орлова" data-en="Natasha Orlova">Наташа Орлова</span>
+                <span class="card__meta-dot" aria-hidden="true"></span>
+                <time datetime="2026-06-05" data-ru="5 июня 2026" data-en="June 5, 2026">5 июня 2026</time>
+              </p>
+            </div>
+          </a>
+
+          <!-- PEOPLE 2 -->
+          <a class="card" href="article.html" data-rubric="people" data-reveal style="--d:60ms">
+            <div class="card__media">
+              <div class="card__img-wrap">
+                <img class="card__img" src="img/people-2.jpg" width="1600" height="1067" loading="lazy" decoding="async"
+                     data-alt-ru="Люди с церемониальными посохами на улице" data-alt-en="People with ceremonial staffs outdoors"
+                     alt="Люди с церемониальными посохами на улице">
+              </div>
+              <span class="card__kicker" data-ru="Люди" data-en="People">Люди</span>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title" data-ru="Женщина, которая помнит каждый дом" data-en="The Woman Who Remembers Every Building">Женщина, которая помнит каждый дом</h3>
+              <p class="card__dek" data-ru="Картограф Лена Струкова провела 30 лет, зарисовывая городские фасады от руки. Теперь её архив — единственное свидетельство снесённых кварталов." data-en="Cartographer Lena Strukova spent 30 years sketching city facades by hand. Her archive is now the only record of demolished blocks.">Картограф Лена Струкова провела 30 лет, зарисовывая городские фасады от руки. Теперь её архив — единственное свидетельство снесённых кварталов.</p>
+              <p class="card__meta">
+                <span data-ru="Максим Белов" data-en="Maxim Belov">Максим Белов</span>
+                <span class="card__meta-dot" aria-hidden="true"></span>
+                <time datetime="2026-06-12" data-ru="12 июня 2026" data-en="June 12, 2026">12 июня 2026</time>
+              </p>
+            </div>
+          </a>
+
+          <!-- CITY -->
+          <a class="card" href="article.html" data-rubric="city" data-reveal style="--d:120ms">
+            <div class="card__media">
+              <div class="card__img-wrap">
+                <img class="card__img" src="img/city-1.jpg" width="1600" height="1000" loading="lazy" decoding="async"
+                     data-alt-ru="Городская улица с барьерами и архитектурой" data-alt-en="A city street with barriers and architecture"
+                     alt="Городская улица с барьерами и архитектурой">
+              </div>
+              <span class="card__kicker" data-ru="Город" data-en="City">Город</span>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title" data-ru="Двор как архитектура молчания" data-en="The Courtyard as Architecture of Silence">Двор как архитектура молчания</h3>
+              <p class="card__dek" data-ru="Городские дворы-колодцы становятся последними островами тишины в шумном городе — и первыми жертвами реновации." data-en="The city's enclosed courtyards are the last refuges of quiet in a loud metropolis — and the first to fall to renovation.">Городские дворы-колодцы становятся последними островами тишины в шумном городе — и первыми жертвами реновации.</p>
+              <p class="card__meta">
+                <span data-ru="Анна Корецкая" data-en="Anna Koretskaya">Анна Корецкая</span>
+                <span class="card__meta-dot" aria-hidden="true"></span>
+                <time datetime="2026-06-15" data-ru="15 июня 2026" data-en="June 15, 2026">15 июня 2026</time>
+              </p>
+            </div>
+          </a>
+
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- ============ SHARED FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__top">
+        <div class="site-footer__brand" data-reveal>
+          <a class="wordmark" href="index.html" data-ru="Разворот" data-en="Razvorot">Разворот</a>
+          <p class="site-footer__about" data-ru="Город — это текст. Мы его читаем вслух." data-en="The city is a text. We read it aloud.">Город — это текст. Мы его читаем вслух.</p>
+        </div>
+
+        <div class="footer-col" data-reveal style="--d:150ms">
+          <h3 class="footer-col__title" data-ru="Рубрики" data-en="Rubrics">Рубрики</h3>
+          <ul class="footer-col__list">
+            <li><a class="footer-col__link" href="rubric.html" data-rubric="city"    data-ru="Город" data-en="City">Город</a></li>
+            <li><a class="footer-col__link" href="rubric.html" data-rubric="culture" data-ru="Культура" data-en="Culture">Культура</a></li>
+            <li><a class="footer-col__link" href="rubric.html" data-rubric="people"  data-ru="Люди" data-en="People">Люди</a></li>
+            <li><a class="footer-col__link" href="rubric.html" data-rubric="food"    data-ru="Еда" data-en="Food">Еда</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col" data-reveal style="--d:300ms">
+          <h3 class="footer-col__title" data-ru="Журнал" data-en="Magazine">Журнал</h3>
+          <ul class="footer-col__list">
+            <li><a class="footer-col__link" href="#" data-ru="О нас" data-en="About">О нас</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="Редакция" data-en="Editorial team">Редакция</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="Архив" data-en="Archive">Архив</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="Контакты" data-en="Contacts">Контакты</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col" data-reveal style="--d:450ms">
+          <h3 class="footer-col__title" data-ru="Следить" data-en="Follow">Следить</h3>
+          <ul class="footer-col__list">
+            <li><a class="footer-col__link" href="#" data-ru="Телеграм" data-en="Telegram">Телеграм</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="Рассылка" data-en="Newsletter">Рассылка</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="RSS" data-en="RSS">RSS</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p class="site-footer__copy" data-ru="© 2026 Разворот. Все материалы — фотографии Pexels." data-en="© 2026 Razvorot. All imagery courtesy of Pexels.">© 2026 Разворот. Все материалы — фотографии Pexels.</p>
+        <div class="site-tools">
+          <button class="toggle-btn" data-lang-toggle type="button" aria-pressed="false" aria-label="Сменить язык / Switch language">
+            <span class="lang-toggle__ru">РУ</span><span class="lang-toggle__sep">/</span><span class="lang-toggle__en">EN</span>
+          </button>
+          <button class="toggle-btn" data-theme-toggle type="button" aria-pressed="false"
+                  data-label-dark="Тёмная тема" data-label-light="Светлая тема" aria-label="Тёмная тема">
+            <svg class="theme-toggle__icon theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+            <svg class="theme-toggle__icon theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shared module entry -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

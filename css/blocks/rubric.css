@@ -1,0 +1,130 @@
+/* rubric.css — rubric landing header with per-rubric color identity.
+   Scope element carries [data-rubric="…"] so --accent resolves to the
+   rubric color. Kicker resolves into the rubric color (clip-wipe head),
+   broadsheet title, dek, count meta, 1px rule. Filter row = rubric nav
+   links styled as editorial chips (active chip wears its own accent).
+   Accent on kicker/rule/chips ONLY — never body text. Tokens only. */
+
+.rubric-head {
+  padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
+}
+.rubric-head__inner {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+
+/* kicker — resolves into the rubric accent (clip-wipe via [data-reveal-head]) */
+.rubric-head__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  width: fit-content;
+}
+.rubric-head__kicker::before {
+  content: "";
+  width: clamp(28px, 6vw, 56px);
+  height: 2px;
+  background: var(--accent);
+}
+
+.rubric-head__title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 8vw, 5.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 14ch;
+}
+
+.rubric-head__dek {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(1.1rem, 1rem + 0.9vw, 1.6rem);
+  line-height: 1.4;
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+.rubric-head__meta {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.rubric-head__rule { margin-top: clamp(0.5rem, 2vw, 1.25rem); }
+
+/* ---- Filter row — rubric chips (reuse nav links, styled editorial) ---- */
+.rubric-filter {
+  padding-block: clamp(1.25rem, 3vw, 2rem) 0;
+}
+.rubric-filter__label {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.9rem;
+}
+.rubric-filter__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* li wrappers carry no layout — chips remain the direct flex items */
+.rubric-filter__list > li { display: contents; }
+
+/* each chip carries its own [data-rubric] → its own --accent */
+.rubric-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border: var(--line-w) solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  transition: border-color 0.22s var(--ease), color 0.22s var(--ease), background 0.22s var(--ease);
+}
+.rubric-chip::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  transition: transform 0.22s var(--ease);
+}
+.rubric-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.rubric-chip:hover::before { transform: scale(1.25); }
+
+/* active chip wears its rubric accent fully */
+.rubric-chip[aria-current="page"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.rubric-chip[aria-current="page"]::before { transform: scale(1.25); }
+
+/* tighten the trailing lenta when it follows the filter row */
+.rubric-filter + .lenta { padding-block-start: clamp(2rem, 4vw, 3rem); }
+
+@media (max-width: 540px) {
+  .rubric-head__title { max-width: 100%; }
+  .rubric-filter__list { gap: 0.5rem; }
+}

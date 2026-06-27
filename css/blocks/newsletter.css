@@ -1,0 +1,233 @@
+/* ============================================================
+   newsletter.css — BEM block for «Разворот» newsletter signup.
+   Tokens from settings.css (via base.css). No hardcoded colors.
+   Editorial hairline rules, fluid type, AA in light AND dark.
+   is-done toggled on .newsletter__inner[data-newsletter] by inline JS.
+   ============================================================ */
+
+/* ---- Section wrapper ---- */
+.newsletter {
+  padding-block: var(--section-gap);
+  border-top: var(--line-w) solid var(--line);
+}
+
+/* ---- Inner: two-column editorial split, boxed with hairlines ---- */
+.newsletter__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;                        /* hairline separator handles spacing */
+  align-items: start;
+  border: var(--line-w) solid var(--line);
+  background: var(--surface);
+  position: relative;
+}
+
+/* Left column (text) */
+.newsletter__inner > div:first-child {
+  padding: clamp(2rem, 4vw, 3rem);
+  border-right: var(--line-w) solid var(--line);
+}
+
+/* Right column (form) */
+.newsletter__form {
+  padding: clamp(2rem, 4vw, 3rem);
+  display: grid;
+  gap: clamp(0.625rem, 1.2vw, 0.875rem);
+}
+
+/* ---- Title ---- */
+.newsletter__title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(1.625rem, 1.1rem + 2.5vw, 2.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: clamp(0.625rem, 1.2vw, 0.875rem);
+}
+
+/* Kicker rule above title — editorial accent via lime (city/newsletter accent) */
+.newsletter__title::before {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: var(--line-w);
+  background: var(--accent-city);
+  margin-bottom: clamp(0.875rem, 1.5vw, 1.125rem);
+}
+
+/* ---- Lead text ---- */
+.newsletter__lead {
+  font-family: var(--font-body);
+  font-size: clamp(0.9375rem, 0.85rem + 0.5vw, 1.0625rem);
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 36ch;
+}
+
+/* ---- Input + button fused row ---- */
+.newsletter__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  border: var(--line-w) solid var(--line);
+  background: var(--field);
+  overflow: hidden;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+
+.newsletter__row:focus-within {
+  border-color: var(--ink);
+}
+
+/* ---- Email input ---- */
+.newsletter__input {
+  min-width: 0;
+  padding: clamp(0.75rem, 1.3vw, 0.9rem) clamp(0.875rem, 1.4vw, 1rem);
+  background: transparent;
+  border: none;
+  border-right: var(--line-w) solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: clamp(0.875rem, 0.95vw, 1rem);
+  font-weight: 400;
+  outline: none;
+  border-radius: 0;
+  transition: background 0.15s var(--ease);
+}
+
+.newsletter__input::placeholder {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.newsletter__input:focus {
+  background: var(--surface-2);
+}
+
+/* ---- Submit button ---- */
+.newsletter__btn {
+  padding: clamp(0.75rem, 1.3vw, 0.9rem) clamp(1rem, 1.8vw, 1.5rem);
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--font-ui);
+  font-size: clamp(0.75rem, 0.85vw, 0.875rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.newsletter__btn:hover {
+  background: var(--muted);
+}
+
+.newsletter__btn:active {
+  opacity: 0.8;
+}
+
+.newsletter__btn:focus-visible {
+  outline: 2px solid var(--accent-city);
+  outline-offset: -3px;
+}
+
+/* ---- Privacy note ---- */
+.newsletter__note {
+  font-family: var(--font-ui);
+  font-size: clamp(0.6875rem, 0.78vw, 0.8125rem);
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* ---- Success state ---- */
+/* is-done is placed on .newsletter__inner by the inline script */
+.newsletter__success {
+  display: none;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-ui);
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.newsletter__success-icon {
+  flex-shrink: 0;
+  width: 1.625rem;
+  height: 1.625rem;
+  stroke: var(--accent-city);
+}
+
+/* Animated check draw */
+.newsletter__success-icon path {
+  stroke: var(--accent-city);
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+}
+
+/* Toggled by JS on .newsletter__inner.is-done */
+.newsletter__inner.is-done .newsletter__form {
+  display: none;
+}
+
+.newsletter__inner.is-done .newsletter__success {
+  display: flex;
+}
+
+.newsletter__inner.is-done .newsletter__success-icon path {
+  animation: nl-check 0.5s var(--ease) 0.1s forwards;
+}
+
+@keyframes nl-check {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ============================================================
+   RESPONSIVE — 390px clean reflow.
+   Mobile overrides reuse the SAME nth-child selectors where applicable.
+   ============================================================ */
+
+@media (max-width: 760px) {
+  /* Single-column stacked layout */
+  .newsletter__inner {
+    grid-template-columns: 1fr;
+  }
+
+  /* Remove right border on the text block when stacked */
+  .newsletter__inner > div:first-child {
+    border-right: none;
+    border-bottom: var(--line-w) solid var(--line);
+  }
+
+  /* Stack input above button on very narrow viewports */
+  .newsletter__row {
+    grid-template-columns: 1fr;
+  }
+
+  .newsletter__input {
+    border-right: none;
+    border-bottom: var(--line-w) solid var(--line);
+  }
+
+  .newsletter__btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .newsletter__lead {
+    max-width: 100%;
+  }
+}
+
+/* ---- Reduced motion ---- */
+/* base.css handles [data-reveal]; here only the SVG animation. */
+@media (prefers-reduced-motion: reduce) {
+  .newsletter__success-icon path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}

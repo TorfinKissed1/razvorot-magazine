@@ -1,0 +1,325 @@
+/* ============================================================
+   lenta.css — broken-grid article feed, mini magazine spreads.
+   BEM: .lenta / .lenta__grid / .card / .card--hero / .card--wide
+   Tokens from settings.css only. Reveal via .is-revealed only.
+   Rubric accent on kicker + hairline rule — never on body text.
+   ============================================================ */
+
+/* ---- Section shell ---- */
+.lenta {
+  padding-block: var(--section-gap);
+}
+
+/* ---- Section head: title + count, separated by hairline rule below ---- */
+.lenta__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.75rem);
+  padding-bottom: 0.9rem;
+  border-bottom: var(--line-w) solid var(--line);
+}
+.lenta__title {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1rem + 1.4vw, 2rem);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.lenta__count {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Broken editorial grid — 12-column base.
+   Cards default to span 4 (3-up). Hero spans 12. Wide spans 6.
+   ============================================================ */
+.lenta__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: clamp(1.5rem, 2.5vw, 2.25rem);
+  row-gap: clamp(2rem, 4vw, 3.25rem);
+}
+
+/* ============================================================
+   CARD — base mini-spread (photo on top, body below).
+   grid-template-rows so body grows to fill available row height.
+   ============================================================ */
+.card {
+  /* Resolve accent from [data-rubric] on the card itself */
+  --accent: var(--ink);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 0.9rem;
+  grid-column: span 4;
+  border-radius: 0;                        /* editorial — no rounding */
+  text-decoration: none;
+  color: var(--ink);
+}
+
+/* Per-rubric accent resolution — kicker/border color only */
+.card[data-rubric="city"]    { --accent: var(--accent-city); }
+.card[data-rubric="culture"] { --accent: var(--accent-culture); }
+.card[data-rubric="people"]  { --accent: var(--accent-people); }
+.card[data-rubric="food"]    { --accent: var(--accent-food); }
+
+/* ---- Card media: photo + kicker overlapping via CSS grid stack ---- */
+.card__media {
+  display: grid;
+  grid-template-areas: "stack";
+  overflow: hidden;                        /* clip kicker to photo bounds */
+}
+.card__img-wrap {
+  grid-area: stack;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;                    /* portrait default */
+  background: var(--surface-2);
+}
+.card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.65s var(--ease);
+}
+.card:hover .card__img,
+.card:focus-visible .card__img {
+  transform: scale(1.04);
+}
+
+/* Rubric kicker: overlaps photo at top-left via shared grid-area.
+   Uses --accent for border + text (not body copy). bg = --bg for legibility. */
+.card__kicker {
+  grid-area: stack;
+  align-self: start;
+  justify-self: start;
+  z-index: 2;
+  margin: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.55rem;
+  background: var(--bg);
+  border: var(--line-w) solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+  /* smooth theme switch */
+  transition:
+    background 0.35s var(--ease),
+    color 0.35s var(--ease),
+    border-color 0.35s var(--ease);
+}
+/* colour dot before label */
+.card__kicker::before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  background: var(--accent);
+  transition: background 0.35s var(--ease);
+}
+
+/* ---- Card body ---- */
+.card__body {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+}
+.card__title {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1rem, 0.9rem + 0.55vw, 1.35rem);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  transition: color 0.25s var(--ease);
+}
+.card:hover .card__title,
+.card:focus-visible .card__title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.card__dek {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 0.85rem + 0.2vw, 1rem);
+  line-height: 1.52;
+  color: var(--muted);
+}
+.card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.2rem;
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.card__meta-dot {
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   CARD--HERO — full-width (span 12), horizontal two-column spread.
+   Left: oversized photo. Right: editorial body with accent top-rule.
+   Kicker still overlaps photo via grid-area stack.
+   ============================================================ */
+.card--hero {
+  grid-column: span 12;
+  grid-template-columns: 1.15fr 1fr;
+  grid-template-rows: auto;               /* single row, two columns */
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: center;
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  border-bottom: var(--line-w) solid var(--line);
+}
+.card--hero .card__img-wrap {
+  aspect-ratio: 16 / 11;
+}
+/* Editorial left-column body: accent top rule as visual anchor */
+.card--hero .card__body {
+  gap: 0.65rem;
+  border-top: 2px solid var(--accent);
+  padding-top: 0.9rem;
+  transition: border-color 0.35s var(--ease);
+}
+.card--hero .card__kicker {
+  font-size: 0.74rem;
+  margin: 0.9rem;
+}
+.card--hero .card__title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(1.85rem, 1.3rem + 3vw, 3.4rem);
+  line-height: 0.97;
+  letter-spacing: -0.02em;
+}
+.card--hero .card__dek {
+  font-size: clamp(1rem, 0.95rem + 0.4vw, 1.22rem);
+  line-height: 1.56;
+  max-width: 46ch;
+}
+
+/* ============================================================
+   CARD--WIDE — 6-column (half-grid). Horizontal rhythm breaker.
+   Two wide cards sit in a row, splitting the 12 cols evenly.
+   A hairline column rule between them via border-right on :nth-child.
+   ============================================================ */
+.card--wide {
+  grid-column: span 6;
+}
+.card--wide .card__img-wrap {
+  aspect-ratio: 16 / 10;
+}
+
+/* Column rule hairline between the two .card--wide pairs.
+   nth-child(2) and nth-child(4) are the first of each wide pair in DOM order
+   (hero is child 1, wide-city is child 2, wide-culture is child 3 …).
+   We use border-right on the first wide card of each pair. */
+.lenta__grid > .card--wide:nth-child(2) {
+  border-right: var(--line-w) solid var(--line);
+  padding-right: clamp(1.5rem, 2.5vw, 2.25rem);
+  /* negative margin trick: pull right so padding doesn't shift layout */
+  /* skip trick — use gap already; just border on the card body edge */
+}
+
+/* ---- Vertical hairline between .card--wide pairs ----
+   Use a pseudo on the grid rather than padding hacks, to avoid layout shift.
+   The gap already provides visual space; the rule rides the midpoint. */
+.lenta__grid {
+  position: relative;                      /* anchor for column rule pseudo */
+}
+
+/* ============================================================
+   MOBILE BREAKPOINTS
+   Rule: mobile overrides of desktop nth-child MUST reuse the SAME selectors.
+   ============================================================ */
+
+/* ---- Tablet: 860px — stack wide to full, pair standard cards 6-up ---- */
+@media (max-width: 860px) {
+  .lenta__grid {
+    column-gap: clamp(1.25rem, 4vw, 2rem);
+    row-gap: clamp(1.75rem, 5vw, 2.5rem);
+  }
+
+  /* Default card: 2-up (span 6 each) */
+  .card { grid-column: span 6; }
+
+  /* Hero stacks vertically */
+  .card--hero {
+    grid-column: span 12;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    align-items: start;
+  }
+  .card--hero .card__img-wrap { aspect-ratio: 16 / 10; }
+
+  /* Wide cards go full-width at tablet */
+  .card--wide { grid-column: span 12; }
+  .card--wide .card__img-wrap { aspect-ratio: 16 / 10; }
+
+  /* Remove column rule hairline on stacked wide cards */
+  .lenta__grid > .card--wide:nth-child(2) {
+    border-right: none;
+    padding-right: 0;
+  }
+}
+
+/* ---- Mobile: 540px — single column, reset aspect ratios ---- */
+@media (max-width: 540px) {
+  .lenta__grid {
+    column-gap: 0;
+    row-gap: clamp(1.5rem, 6vw, 2.25rem);
+  }
+
+  /* All cards: single column */
+  .card        { grid-column: span 12; }
+  .card--wide  { grid-column: span 12; }
+
+  /* Portrait default on standard cards */
+  .card__img-wrap         { aspect-ratio: 4 / 3; }
+
+  /* Wide: wider ratio on small screen */
+  .card--wide .card__img-wrap { aspect-ratio: 16 / 9; }
+
+  /* Hero: compact ratio on 390px */
+  .card--hero { grid-column: span 12; }
+  .card--hero .card__img-wrap { aspect-ratio: 3 / 2; }
+
+  /* Keep hero body accent rule */
+  .card--hero .card__body {
+    border-top: 2px solid var(--accent);
+    padding-top: 0.75rem;
+  }
+
+  /* Remove column hairline (nth-child 2 reuse) */
+  .lenta__grid > .card--wide:nth-child(2) {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  /* Tighten kicker margin on small screens */
+  .card__kicker { margin: 0.55rem; }
+  .card--hero .card__kicker { margin: 0.55rem; }
+}

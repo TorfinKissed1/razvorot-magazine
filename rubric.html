@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-ru="Город — Разворот" data-en="City — Razvorot">Город — Разворот</title>
+  <meta name="description" data-ru="Репортажи о городе: дворы, маршруты, фасады и места, которые исчезают." data-en="Reportage on the city: courtyards, routes, facades and the places that vanish." content="Репортажи о городе: дворы, маршруты, фасады и места, которые исчезают.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f2efe6'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='22' font-weight='700' text-anchor='middle' fill='%231a1a1a'%3E%D0%A0%3C/text%3E%3C/svg%3E">
+
+  <!-- Theme-before-paint (no FOUC) -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('razvorot-theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+        var l = localStorage.getItem('razvorot-lang');
+        if (l === 'en') document.documentElement.setAttribute('lang', 'en');
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Fonts: Unbounded (display) + Spectral (body) + Onest (ui), cyrillic+latin -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&family=Onest:wght@400;500;600&display=swap&subset=cyrillic,latin" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/blocks/header.css">
+  <link rel="stylesheet" href="css/blocks/rubric.css">
+  <link rel="stylesheet" href="css/blocks/lenta.css">
+  <link rel="stylesheet" href="css/blocks/footer.css">
+</head>
+<body>
+  <!-- Scroll progress -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" data-scroll-progress></div>
+  </div>
+
+  <a class="skip-link" href="#main" data-ru="К содержанию" data-en="Skip to content">К содержанию</a>
+
+  <!-- ============ SHARED HEADER ============ -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="wordmark" href="index.html" data-ru="Разворот" data-en="Razvorot">Разворот</a>
+
+      <nav class="site-nav" aria-label="Рубрики">
+        <ul class="site-nav__list">
+          <li><a class="site-nav__link" href="rubric.html" data-rubric="city"    data-ru="Город" data-en="City">Город</a></li>
+          <li><a class="site-nav__link" href="rubric.html" data-rubric="culture" data-ru="Культура" data-en="Culture">Культура</a></li>
+          <li><a class="site-nav__link" href="rubric.html" data-rubric="people"  data-ru="Люди" data-en="People">Люди</a></li>
+          <li><a class="site-nav__link" href="rubric.html" data-rubric="food"    data-ru="Еда" data-en="Food">Еда</a></li>
+        </ul>
+
+        <div class="site-tools">
+          <button class="toggle-btn" data-lang-toggle type="button" aria-pressed="false" aria-label="Сменить язык / Switch language">
+            <span class="lang-toggle__ru">РУ</span><span class="lang-toggle__sep">/</span><span class="lang-toggle__en">EN</span>
+          </button>
+          <button class="toggle-btn" data-theme-toggle type="button" aria-pressed="false"
+                  data-label-dark="Тёмная тема" data-label-light="Светлая тема" aria-label="Тёмная тема">
+            <svg class="theme-toggle__icon theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+            <svg class="theme-toggle__icon theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+          </button>
+          <button class="burger" data-nav-toggle type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Меню">
+            <span class="burger__bars"></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Mobile panel -->
+    <div class="nav-panel" id="nav-panel" data-nav-panel data-open="false">
+      <ul class="nav-panel__list">
+        <li><a class="nav-panel__link" href="rubric.html"><span data-rubric="city"    data-ru="Город" data-en="City">Город</span></a></li>
+        <li><a class="nav-panel__link" href="rubric.html"><span data-rubric="culture" data-ru="Культура" data-en="Culture">Культура</span></a></li>
+        <li><a class="nav-panel__link" href="rubric.html"><span data-rubric="people"  data-ru="Люди" data-en="People">Люди</span></a></li>
+        <li><a class="nav-panel__link" href="rubric.html"><span data-rubric="food"    data-ru="Еда" data-en="Food">Еда</span></a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============ RUBRIC HEADER — color identity scope (data-rubric) ============ -->
+    <section class="rubric-head" data-rubric="city">
+      <div class="container rubric-head__inner">
+        <p class="rubric-head__kicker" data-reveal-head data-ru="Рубрика" data-en="Rubric">Рубрика</p>
+        <h1 class="rubric-head__title" data-reveal data-ru="Город" data-en="City">Город</h1>
+        <p class="rubric-head__dek" data-reveal data-ru="Дворы, маршруты и фасады. Репортажи о местах, которые исчезают, пока мы спорим, как их назвать." data-en="Courtyards, routes and facades. Reportage on the places that vanish while we argue about what to call them.">Дворы, маршруты и фасады. Репортажи о местах, которые исчезают, пока мы спорим, как их назвать.</p>
+        <p class="rubric-head__meta" data-reveal data-ru="4 материала в рубрике" data-en="4 stories in this rubric">4 материала в рубрике</p>
+        <hr class="rule rubric-head__rule" data-reveal>
+      </div>
+    </section>
+
+    <!-- ============ FILTER ROW — rubric chips (reuse nav links as chips) ============ -->
+    <section class="rubric-filter">
+      <div class="container">
+        <span class="rubric-filter__label" data-ru="Другие рубрики" data-en="Other rubrics">Другие рубрики</span>
+        <nav aria-label="Фильтр по рубрикам">
+          <ul class="rubric-filter__list">
+            <li><a class="rubric-chip" href="rubric.html" data-rubric="city"    data-ru="Город" data-en="City">Город</a></li>
+            <li><a class="rubric-chip" href="rubric.html" data-rubric="culture" data-ru="Культура" data-en="Culture">Культура</a></li>
+            <li><a class="rubric-chip" href="rubric.html" data-rubric="people"  data-ru="Люди" data-en="People">Люди</a></li>
+            <li><a class="rubric-chip" href="rubric.html" data-rubric="food"    data-ru="Еда" data-en="Food">Еда</a></li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <!-- ============ LENTA — editorial grid of this rubric's articles ============ -->
+    <section class="lenta">
+      <div class="container">
+        <div class="lenta__head" data-reveal>
+          <h2 class="lenta__title" data-ru="Все материалы" data-en="All stories">Все материалы</h2>
+          <span class="lenta__count" data-ru="4 материала" data-en="4 stories">4 материала</span>
+        </div>
+
+        <div class="lenta__grid">
+
+          <!-- HERO FEATURE (city) -->
+          <a class="card card--hero" href="article.html" data-rubric="city" data-reveal>
+            <div class="card__media">
+              <div class="card__img-wrap">
+                <img class="card__img" src="img/city-1.jpg" width="1600" height="1000" loading="eager" decoding="async"
+                     data-alt-ru="Городская улица с барьерами и архитектурой" data-alt-en="A city street with barriers and architecture"
+                     alt="Городская улица с барьерами и архитектурой">
+              </div>
+              <span class="card__kicker" data-ru="Город" data-en="City">Город</span>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title" data-ru="Двор как архитектура молчания" data-en="The Courtyard as Architecture of Silence">Двор как архитектура молчания</h3>
+              <p class="card__dek" data-ru="Городские дворы-колодцы становятся последними островами тишины в шумном городе — и первыми жертвами реновации." data-en="The city's enclosed courtyards are the last refuges of quiet in a loud metropolis — and the first to fall to renovation.">Городские дворы-колодцы становятся последними островами тишины в шумном городе — и первыми жертвами реновации.</p>
+              <p class="card__meta">
+                <span data-ru="Анна Корецкая" data-en="Anna Koretskaya">Анна Корецкая</span>
+                <span class="card__meta-dot" aria-hidden="true"></span>
+                <time datetime="2026-06-15" data-ru="15 июня 2026" data-en="June 15, 2026">15 июня 2026</time>
+              </p>
+            </div>
+          </a>
+
+          <!-- CITY — wide -->
+          <a class="card card--wide" href="article.html" data-rubric="city" data-reveal style="--d:60ms">
+            <div class="card__media">
+              <div class="card__img-wrap">
+                <img class="card__img" src="img/city-2.jpg" width="1600" height="2000" loading="lazy" decoding="async"
+                     data-alt-ru="Узкая европейская улочка" data-alt-en="A narrow European alleyway"
+                     alt="Узкая европейская улочка">
+              </div>
+              <span class="card__kicker" data-ru="Город" data-en="City">Город</span>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title" data-ru="Маршрут № 47: автобус, которого не ждут" data-en="Route 47: The Bus Nobody Waits For">Маршрут № 47: автобус, которого не ждут</h3>
+              <p class="card__dek" data-ru="Ночной маршрут через три района — репортаж о людях, которые возвращаются домой последними." data-en="A late-night route through three districts — a report on the people who come home last.">Ночной маршрут через три района — репортаж о людях, которые возвращаются домой последними.</p>
+              <p class="card__meta">
+                <span data-ru="Илья Зеленцов" data-en="Ilya Zelentsov">Илья Зеленцов</span>
+                <span class="card__meta-dot" aria-hidden="true"></span>
+                <time datetime="2026-06-18" data-ru="18 июня 2026" data-en="June 18, 2026">18 июня 2026</time>
+              </p>
+            </div>
+          </a>
+
+          <!-- CITY — wide -->
+          <a class="card card--wide" href="article.html" data-rubric="city" data-reveal style="--d:120ms">
+            <div class="card__media">
+              <div class="card__img-wrap">
+                <img class="card__img" src="img/article-cover.jpg" width="1600" height="1000" loading="lazy" decoding="async"
+                     data-alt-ru="Фасады старого квартала в утреннем свете" data-alt-en="Facades of an old quarter in morning light"
+                     alt="Фасады старого квартала в утреннем свете">
+              </div>
+              <span class="card__kicker" data-ru="Город" data-en="City">Город</span>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title" data-ru="Набережная, которой нет на карте" data-en="The Embankment That Isn't on the Map">Набережная, которой нет на карте</h3>
+              <p class="card__dek" data-ru="Полоса земли между складами и водой стала народным парком — без проекта, бюджета и разрешения. Город решает, что с ней делать." data-en="A strip of land between warehouses and water became a people's park — with no plan, budget or permit. The city is deciding what to do with it.">Полоса земли между складами и водой стала народным парком — без проекта, бюджета и разрешения. Город решает, что с ней делать.</p>
+              <p class="card__meta">
+                <span data-ru="Анна Корецкая" data-en="Anna Koretskaya">Анна Корецкая</span>
+                <span class="card__meta-dot" aria-hidden="true"></span>
+                <time datetime="2026-06-08" data-ru="8 июня 2026" data-en="June 8, 2026">8 июня 2026</time>
+              </p>
+            </div>
+          </a>
+
+          <!-- CITY — standard -->
+          <a class="card" href="article.html" data-rubric="city" data-reveal>
+            <div class="card__media">
+              <div class="card__img-wrap">
+                <img class="card__img" src="img/hero-feature.jpg" width="1600" height="1100" loading="lazy" decoding="async"
+                     data-alt-ru="Опустевшее здание в сумерках" data-alt-en="A deserted building at dusk"
+                     alt="Опустевшее здание в сумерках">
+              </div>
+              <span class="card__kicker" data-ru="Город" data-en="City">Город</span>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title" data-ru="Что остаётся, когда сносят дом" data-en="What Remains When a House Comes Down">Что остаётся, когда сносят дом</h3>
+              <p class="card__dek" data-ru="За месяц до сноса мы прошли по подъездам дома на Лиговском — и записали, что жильцы решили взять с собой." data-en="A month before demolition we walked the stairwells of a building on Ligovsky — and noted what its residents chose to take with them.">За месяц до сноса мы прошли по подъездам дома на Лиговском — и записали, что жильцы решили взять с собой.</p>
+              <p class="card__meta">
+                <span data-ru="Илья Зеленцов" data-en="Ilya Zelentsov">Илья Зеленцов</span>
+                <span class="card__meta-dot" aria-hidden="true"></span>
+                <time datetime="2026-06-02" data-ru="2 июня 2026" data-en="June 2, 2026">2 июня 2026</time>
+              </p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ SHARED FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__top">
+        <div class="site-footer__brand" data-reveal>
+          <a class="wordmark" href="index.html" data-ru="Разворот" data-en="Razvorot">Разворот</a>
+          <p class="site-footer__about" data-ru="Город — это текст. Мы его читаем вслух." data-en="The city is a text. We read it aloud.">Город — это текст. Мы его читаем вслух.</p>
+        </div>
+
+        <div class="footer-col" data-reveal style="--d:150ms">
+          <h3 class="footer-col__title" data-ru="Рубрики" data-en="Rubrics">Рубрики</h3>
+          <ul class="footer-col__list">
+            <li><a class="footer-col__link" href="rubric.html" data-rubric="city"    data-ru="Город" data-en="City">Город</a></li>
+            <li><a class="footer-col__link" href="rubric.html" data-rubric="culture" data-ru="Культура" data-en="Culture">Культура</a></li>
+            <li><a class="footer-col__link" href="rubric.html" data-rubric="people"  data-ru="Люди" data-en="People">Люди</a></li>
+            <li><a class="footer-col__link" href="rubric.html" data-rubric="food"    data-ru="Еда" data-en="Food">Еда</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col" data-reveal style="--d:300ms">
+          <h3 class="footer-col__title" data-ru="Журнал" data-en="Magazine">Журнал</h3>
+          <ul class="footer-col__list">
+            <li><a class="footer-col__link" href="#" data-ru="О нас" data-en="About">О нас</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="Редакция" data-en="Editorial team">Редакция</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="Архив" data-en="Archive">Архив</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="Контакты" data-en="Contacts">Контакты</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col" data-reveal style="--d:450ms">
+          <h3 class="footer-col__title" data-ru="Следить" data-en="Follow">Следить</h3>
+          <ul class="footer-col__list">
+            <li><a class="footer-col__link" href="#" data-ru="Телеграм" data-en="Telegram">Телеграм</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="Рассылка" data-en="Newsletter">Рассылка</a></li>
+            <li><a class="footer-col__link" href="#" data-ru="RSS" data-en="RSS">RSS</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p class="site-footer__copy" data-ru="© 2026 Разворот. Все материалы — фотографии Pexels." data-en="© 2026 Razvorot. All imagery courtesy of Pexels.">© 2026 Разворот. Все материалы — фотографии Pexels.</p>
+        <div class="site-tools">
+          <button class="toggle-btn" data-lang-toggle type="button" aria-pressed="false" aria-label="Сменить язык / Switch language">
+            <span class="lang-toggle__ru">РУ</span><span class="lang-toggle__sep">/</span><span class="lang-toggle__en">EN</span>
+          </button>
+          <button class="toggle-btn" data-theme-toggle type="button" aria-pressed="false"
+                  data-label-dark="Тёмная тема" data-label-light="Светлая тема" aria-label="Тёмная тема">
+            <svg class="theme-toggle__icon theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+            <svg class="theme-toggle__icon theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shared module entry -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
