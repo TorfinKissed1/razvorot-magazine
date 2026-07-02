@@ -62,4 +62,14 @@ export function initReveal() {
   window.addEventListener('resize', onScroll, { passive: true });
   sweep();
   window.addEventListener('load', sweep, { once: true });
+
+  /* Final failsafe — if any element is still hidden a moment after load
+     (fast/keyboard scroll never fired the observer, full-height render,
+     inertial trackpad, etc.) reveal it outright. Guarantees no element
+     can be stranded at opacity:0 below the fold. Additive only. */
+  window.setTimeout(() => {
+    for (const el of items) {
+      if (!el.classList.contains('is-revealed')) reveal(el);
+    }
+  }, 1600);
 }

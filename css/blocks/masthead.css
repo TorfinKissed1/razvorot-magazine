@@ -9,9 +9,45 @@
    ============================================================ */
 
 .masthead {
-  padding-block: clamp(2.75rem, 6vw, 5.5rem) clamp(2rem, 4vw, 3.25rem);
+  position: relative;
+  isolation: isolate;                 /* contain the bg + scrim z-stack */
+  padding-block: clamp(3.5rem, 8vw, 7rem) clamp(2.5rem, 5vw, 4rem);
   border-bottom: var(--line-w) solid var(--line-soft);
+  overflow: clip;
 }
+
+/* Full-bleed photographic backdrop — foggy city, filtered to a quiet
+   texture so the kinetic type stays the hero. Sits behind everything (-2). */
+.masthead::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url('../../img/masthead-bg.jpg') center / cover no-repeat;
+  /* grayscale + duotone-lean toward the city accent, muted so type wins */
+  filter: grayscale(1) contrast(1.05) brightness(1.05);
+  opacity: 0.5;
+}
+
+/* Theme-aware scrim: fade the photo into --bg at the bottom (where the
+   title sits) so contrast holds in BOTH light and dark themes. */
+.masthead::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--bg) 55%, transparent) 0%,
+    color-mix(in oklab, var(--bg) 78%, transparent) 55%,
+    var(--bg) 100%
+  );
+  pointer-events: none;
+}
+
+/* Dark theme: the foggy photo already reads dark — lift the scrim a touch
+   so the texture stays visible while keeping AA on light ink. */
+html[data-theme="dark"] .masthead::before { opacity: 0.42; }
 
 /* Broadsheet measure: title gets its own column, tagline hangs in a
    second column on wide screens so the spread reads as a real masthead. */

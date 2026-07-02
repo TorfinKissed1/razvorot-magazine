@@ -59,8 +59,13 @@ h1 { font-weight: 700; }
 
 /* ============================================================
    REVEAL CONTRACT — declared ONCE here. Blocks only toggle .is-revealed.
+   PROGRESSIVE ENHANCEMENT: content is fully visible by default. The
+   hidden pre-animation state is scoped to html.js — a class set by an
+   inline head script BEFORE paint. If JS is disabled, fails, or a
+   fast/keyboard scroll never fires the observer, nothing can ever stay
+   invisible. reveal.js still ONLY toggles .is-revealed (logic untouched).
    ============================================================ */
-[data-reveal] {
+html.js [data-reveal] {
   opacity: 0;
   transform: translateY(var(--reveal-shift));
   transition:
@@ -68,18 +73,21 @@ h1 { font-weight: 700; }
     transform var(--reveal-dur) var(--ease);
   will-change: opacity, transform;
 }
-[data-reveal].is-revealed {
+/* Revealed state must match the html.js-scoped hidden rule's specificity
+   (the html type selector in `html.js [data-reveal]` adds one element), so
+   scope the revealed rule under html.js too and let source order win. */
+html.js [data-reveal].is-revealed {
   opacity: 1;
   transform: none;
 }
 
 /* headline clip-wipe (kinetic masthead / titles) */
-[data-reveal-head] {
+html.js [data-reveal-head] {
   clip-path: inset(0 100% 0 0);
   transition: clip-path var(--reveal-dur) var(--ease-out);
   will-change: clip-path;
 }
-[data-reveal-head].is-revealed {
+html.js [data-reveal-head].is-revealed {
   clip-path: inset(0 0 0 0);
 }
 
@@ -92,7 +100,7 @@ h1 { font-weight: 700; }
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
-  [data-reveal], [data-reveal-head] { opacity: 1; transform: none; clip-path: none; }
+  html.js [data-reveal], html.js [data-reveal-head] { opacity: 1; transform: none; clip-path: none; }
 }
 
 /* ============================================================

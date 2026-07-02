@@ -6,7 +6,42 @@
    Accent on kicker/rule/chips ONLY — never body text. Tokens only. */
 
 .rubric-head {
-  padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
+  position: relative;
+  isolation: isolate;
+  padding-block: clamp(3rem, 7vw, 5.5rem) clamp(1.75rem, 3vw, 2.75rem);
+  overflow: clip;
+}
+
+/* Duotone-lean city texture behind the rubric title, tinted toward the
+   rubric --accent. Faded into --bg so the broadsheet title keeps AA. */
+.rubric-head::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url('../../img/masthead-bg.jpg') center / cover no-repeat;
+  filter: grayscale(1) brightness(1.05);
+  opacity: 0.32;
+}
+.rubric-head::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* accent wash + fade to --bg toward the bottom where the title sits */
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--bg) 55%, transparent) 0%,
+      color-mix(in oklab, var(--bg) 82%, transparent) 60%,
+      var(--bg) 100%
+    ),
+    linear-gradient(
+      120deg,
+      color-mix(in oklab, var(--accent) 26%, transparent) 0%,
+      transparent 60%
+    );
+  pointer-events: none;
 }
 .rubric-head__inner {
   display: grid;

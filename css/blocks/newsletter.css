@@ -7,8 +7,35 @@
 
 /* ---- Section wrapper ---- */
 .newsletter {
+  position: relative;
+  isolation: isolate;
   padding-block: var(--section-gap);
   border-top: var(--line-w) solid var(--line);
+  overflow: clip;
+}
+
+/* Muted city texture behind the newsletter, faded into --bg so the boxed
+   form stays crisp. Duotone-lean toward the city/newsletter accent (lime). */
+.newsletter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url('../../img/masthead-bg.jpg') center / cover no-repeat;
+  filter: grayscale(1) brightness(1.05);
+  opacity: 0.18;
+}
+.newsletter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    120% 90% at 50% 0%,
+    color-mix(in oklab, var(--bg) 40%, transparent) 0%,
+    var(--bg) 72%
+  );
+  pointer-events: none;
 }
 
 /* ---- Inner: two-column editorial split, boxed with hairlines ---- */

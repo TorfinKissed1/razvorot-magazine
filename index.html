@@ -12,6 +12,9 @@
   <!-- Theme-before-paint (no FOUC) -->
   <script>
     (function () {
+      /* Mark JS active BEFORE paint — reveal.js hides content only under html.js,
+         so a no-JS / failed-JS load shows everything (progressive enhancement). */
+      document.documentElement.classList.add('js');
       try {
         var t = localStorage.getItem('razvorot-theme');
         if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -22,10 +25,10 @@
     })();
   </script>
 
-  <!-- Fonts: Unbounded (display) + Spectral (body) + Onest (ui), cyrillic+latin -->
+  <!-- Fonts: Unbounded (display) + Literata (body serif) + Manrope (ui), cyrillic+latin -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&family=Onest:wght@400;500;600&display=swap&subset=cyrillic,latin" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Literata:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap&subset=cyrillic,latin" rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/base.css">
@@ -155,8 +158,8 @@
             <div class="card__media">
               <div class="card__img-wrap">
                 <img class="card__img" src="img/culture-1.jpg" width="1600" height="1000" loading="lazy" decoding="async"
-                     data-alt-ru="Художественная выставка, традиционный наряд" data-alt-en="An art exhibition, traditional attire"
-                     alt="Художественная выставка, традиционный наряд">
+                     data-alt-ru="Художница за работой в мастерской среди картин" data-alt-en="An artist at work in her studio among paintings"
+                     alt="Художница за работой в мастерской среди картин">
               </div>
               <span class="card__kicker" data-ru="Культура" data-en="Culture">Культура</span>
             </div>
@@ -197,8 +200,8 @@
             <div class="card__media">
               <div class="card__img-wrap">
                 <img class="card__img" src="img/culture-2.jpg" width="1600" height="1067" loading="lazy" decoding="async"
-                     data-alt-ru="Люди в традиционных нарядах на фестивале" data-alt-en="People in traditional attire at a festival"
-                     alt="Люди в традиционных нарядах на фестивале">
+                     data-alt-ru="Сценический свет в дыму на иммерсивном спектакле" data-alt-en="Stage lights in haze at an immersive performance"
+                     alt="Сценический свет в дыму на иммерсивном спектакле">
               </div>
               <span class="card__kicker" data-ru="Культура" data-en="Culture">Культура</span>
             </div>
@@ -218,8 +221,8 @@
             <div class="card__media">
               <div class="card__img-wrap">
                 <img class="card__img" src="img/people-1.jpg" width="1600" height="2000" loading="lazy" decoding="async"
-                     data-alt-ru="Портрет в традиционном наряде" data-alt-en="A portrait in traditional attire"
-                     alt="Портрет в традиционном наряде">
+                     data-alt-ru="Пожилой мастер за швейной машиной в своей мастерской" data-alt-en="An elderly craftsman at his sewing machine in his workshop"
+                     alt="Пожилой мастер за швейной машиной в своей мастерской">
               </div>
               <span class="card__kicker" data-ru="Люди" data-en="People">Люди</span>
             </div>
@@ -238,9 +241,9 @@
           <a class="card" href="article.html" data-rubric="people" data-reveal>
             <div class="card__media">
               <div class="card__img-wrap">
-                <img class="card__img" src="img/people-2.jpg" width="1600" height="1067" loading="lazy" decoding="async"
-                     data-alt-ru="Люди с церемониальными посохами на улице" data-alt-en="People with ceremonial staffs outdoors"
-                     alt="Люди с церемониальными посохами на улице">
+                <img class="card__img" src="img/cartographer.jpg" width="1600" height="1200" loading="lazy" decoding="async"
+                     data-alt-ru="Картограф в архиве среди своих рисунков" data-alt-en="A cartographer in her archive among her drawings"
+                     alt="Картограф в архиве среди своих рисунков">
               </div>
               <span class="card__kicker" data-ru="Люди" data-en="People">Люди</span>
             </div>

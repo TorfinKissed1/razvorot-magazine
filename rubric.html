@@ -12,6 +12,9 @@
   <!-- Theme-before-paint (no FOUC) -->
   <script>
     (function () {
+      /* Mark JS active BEFORE paint — reveal.js hides content only under html.js,
+         so a no-JS / failed-JS load shows everything (progressive enhancement). */
+      document.documentElement.classList.add('js');
       try {
         var t = localStorage.getItem('razvorot-theme');
         if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -22,10 +25,10 @@
     })();
   </script>
 
-  <!-- Fonts: Unbounded (display) + Spectral (body) + Onest (ui), cyrillic+latin -->
+  <!-- Fonts: Unbounded (display) + Literata (body serif) + Manrope (ui), cyrillic+latin -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&family=Onest:wght@400;500;600&display=swap&subset=cyrillic,latin" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Literata:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap&subset=cyrillic,latin" rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/base.css">
@@ -166,8 +169,8 @@
             <div class="card__media">
               <div class="card__img-wrap">
                 <img class="card__img" src="img/article-cover.jpg" width="1600" height="1000" loading="lazy" decoding="async"
-                     data-alt-ru="Фасады старого квартала в утреннем свете" data-alt-en="Facades of an old quarter in morning light"
-                     alt="Фасады старого квартала в утреннем свете">
+                     data-alt-ru="Заброшенная деревянная набережная над водой" data-alt-en="A derelict wooden embankment over the water"
+                     alt="Заброшенная деревянная набережная над водой">
               </div>
               <span class="card__kicker" data-ru="Город" data-en="City">Город</span>
             </div>
@@ -187,8 +190,8 @@
             <div class="card__media">
               <div class="card__img-wrap">
                 <img class="card__img" src="img/hero-feature.jpg" width="1600" height="1100" loading="lazy" decoding="async"
-                     data-alt-ru="Опустевшее здание в сумерках" data-alt-en="A deserted building at dusk"
-                     alt="Опустевшее здание в сумерках">
+                     data-alt-ru="Заброшенный причал у воды в сумерках" data-alt-en="An abandoned pier by the water at dusk"
+                     alt="Заброшенный причал у воды в сумерках">
               </div>
               <span class="card__kicker" data-ru="Город" data-en="City">Город</span>
             </div>

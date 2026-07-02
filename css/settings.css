@@ -7,14 +7,14 @@
 
 :root {
   /* ---- Fonts ---- */
-  --font-head: 'Unbounded', system-ui, sans-serif;       /* display only */
-  --font-body: 'Spectral', Georgia, 'Times New Roman', serif;
-  --font-ui:   'Onest', system-ui, -apple-system, sans-serif;
+  --font-head: 'Unbounded', system-ui, sans-serif;                 /* display only */
+  --font-body: 'Literata', 'Spectral', Georgia, 'Times New Roman', serif; /* warm editorial serif, strong cyrillic */
+  --font-ui:   'Manrope', 'Onest', system-ui, -apple-system, sans-serif;   /* punchy grotesque UI */
 
   /* ---- Layout ---- */
-  --container: 1280px;
-  --pad-x: clamp(1.25rem, 5vw, 3.5rem);
-  --section-gap: clamp(4rem, 8vw, 6rem);
+  --container: 1400px;
+  --pad-x: clamp(1.25rem, 5vw, 4rem);
+  --section-gap: clamp(3rem, 5.5vw, 4.75rem);
   --line-w: 1px;
 
   /* ---- Motion ---- */
