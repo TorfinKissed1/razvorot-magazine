@@ -11,26 +11,30 @@
 .masthead {
   position: relative;
   isolation: isolate;                 /* contain the bg + scrim z-stack */
-  padding-block: clamp(3.5rem, 8vw, 7rem) clamp(2.5rem, 5vw, 4rem);
+  min-height: 85svh;
+  display: flex;
+  align-items: flex-end;
+  padding-block: clamp(3.5rem, 8vw, 7rem) clamp(3rem, 7vw, 5.5rem);
   border-bottom: var(--line-w) solid var(--line-soft);
   overflow: clip;
 }
 
-/* Full-bleed photographic backdrop — foggy city, filtered to a quiet
-   texture so the kinetic type stays the hero. Sits behind everything (-2). */
+/* Full-bleed photographic backdrop — aerial dusk rooftops, gently
+   duotoned toward the journal palette. Sits behind everything (-2). */
 .masthead::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -2;
-  background: url('../../img/masthead-bg.jpg') center / cover no-repeat;
-  /* grayscale + duotone-lean toward the city accent, muted so type wins */
-  filter: grayscale(1) contrast(1.05) brightness(1.05);
-  opacity: 0.5;
+  background: url('../../img/masthead-city.jpg') center / cover no-repeat;
+  /* light duotone lean, photo stays clearly visible */
+  filter: saturate(0.85) contrast(1.08) brightness(1.02);
+  opacity: 1;
 }
 
-/* Theme-aware scrim: fade the photo into --bg at the bottom (where the
-   title sits) so contrast holds in BOTH light and dark themes. */
+/* Theme-aware scrim: light veil top/bottom (heavier at the edges, lighter
+   center) in light theme so the photo shows through while the title
+   still reads. Dark theme uses a simple bottom-anchored gradient. */
 .masthead::after {
   content: "";
   position: absolute;
@@ -38,16 +42,25 @@
   z-index: -1;
   background: linear-gradient(
     to bottom,
-    color-mix(in oklab, var(--bg) 55%, transparent) 0%,
-    color-mix(in oklab, var(--bg) 78%, transparent) 55%,
-    var(--bg) 100%
+    color-mix(in oklab, var(--bg) 62%, transparent) 0%,
+    color-mix(in oklab, var(--bg) 28%, transparent) 42%,
+    color-mix(in oklab, var(--bg) 38%, transparent) 60%,
+    color-mix(in oklab, var(--bg) 68%, transparent) 100%
   );
   pointer-events: none;
 }
 
-/* Dark theme: the foggy photo already reads dark — lift the scrim a touch
-   so the texture stays visible while keeping AA on light ink. */
-html[data-theme="dark"] .masthead::before { opacity: 0.42; }
+/* Dark theme: let the photo read almost bare, just a bottom pool of
+   darkness so the title sits on solid ground. */
+html[data-theme="dark"] .masthead::before { filter: saturate(0.8) contrast(1.1) brightness(0.85); }
+html[data-theme="dark"] .masthead::after {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--bg) 10%, transparent) 0%,
+    color-mix(in oklab, var(--bg) 8%, transparent) 45%,
+    color-mix(in oklab, var(--bg) 60%, transparent) 100%
+  );
+}
 
 /* Broadsheet measure: title gets its own column, tagline hangs in a
    second column on wide screens so the spread reads as a real masthead. */
@@ -82,8 +95,8 @@ html[data-theme="dark"] .masthead::before { opacity: 0.42; }
 .masthead__title {
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: clamp(2.5rem, 1.6rem + 7vw, 6.25rem);
-  line-height: 0.95;
+  font-size: clamp(2.75rem, 1.5rem + 8.5vw, 7.5rem);
+  line-height: 0.94;
   letter-spacing: -0.025em;
   text-wrap: balance;
   max-width: 18ch;
@@ -100,9 +113,9 @@ html[data-theme="dark"] .masthead::before { opacity: 0.42; }
   font-family: var(--font-body);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(1.1rem, 0.98rem + 0.95vw, 1.7rem);
+  font-size: clamp(1.2rem, 1.02rem + 1.1vw, 1.9rem);
   line-height: 1.4;
-  color: var(--muted);
+  color: var(--ink);
   max-width: 42ch;
 }
 
@@ -140,7 +153,34 @@ html[data-theme="dark"] .masthead::before { opacity: 0.42; }
    Reuse the SAME selectors; just relax the spread back to stacked.
    ============================================================ */
 @media (max-width: 540px) {
-  .masthead { padding-block: clamp(2.25rem, 9vw, 3rem) 2rem; }
+  .masthead {
+    min-height: 78svh;
+    padding-block: clamp(2.25rem, 9vw, 3rem) 2.25rem;
+  }
   .masthead__title { max-width: 100%; }
   .masthead__tagline { max-width: 100%; }
+}
+
+/* ---- Bottom fade: dissolve the masthead's border edge into the page
+   bg so the photo feels like it breathes into the «Свежее» feed rather
+   than cutting off hard. ---- */
+.masthead {
+  border-bottom: none;
+}
+.masthead::after {
+  /* extend scrim gradient slightly past the box for a soft hand-off */
+  bottom: -1px;
+}
+.masthead + .lenta {
+  position: relative;
+}
+.masthead + .lenta::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: clamp(2rem, 5vw, 4rem);
+  background: linear-gradient(to bottom, var(--bg), transparent);
+  pointer-events: none;
 }

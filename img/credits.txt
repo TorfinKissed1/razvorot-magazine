@@ -31,6 +31,11 @@ city-2.jpg             —           Узкая городская улочка 
 food-1.jpg             —           Паста со сливочным соусом («Столовая № 8»)
 food-2.jpg             —           Тартар из тунца («Хлеб с берега»)
 
+masthead-city.jpg      —           generated art (Stitch) — atmospheric aerial
+                                    view of St. Petersburg rooftops at dusk,
+                                    graphite-blue with warm window lights
+                                    (masthead background, index.html)
+
 Примечание: city-1/2 и food-1/2 входили в исходную поставку сайта
 (Pexels). ID для них не зафиксированы; при необходимости заменить на
 фото с зафиксированным Pexels ID.
